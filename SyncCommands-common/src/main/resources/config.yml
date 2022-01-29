@@ -1,0 +1,34 @@
+serverName: "testServer" # anything you want
+
+# this one also exists on the bungeecord because you can send commands to bungeecord!
+connection: # connection to listen for new commands
+  # currently there are 2 different types; socket and redis.
+  # imo redis is better but its on you.
+  #
+  # you must use the same type as the other servers!
+  type: redis
+  host: "localhost"
+  port: 13861
+  password: "supersecretpassword"
+  secure: false # if you are going to use socket, I highly recommend you to keep this enabled and change the password.
+
+servers: # connections to send commands, not listen
+  server1: # command would be /(b)sync server1 {command}
+    host: "localhost"
+    port: 13861
+    password: "supersecretpassword"
+    secure: false
+  server2: # command would be /(b)sync server2 {command}
+    host: "localhost"
+    port: 13861
+    password: "supersecretpassword"
+    secure: false
+#  testServer: # command would be /(b)sync testServer {command}
+#    host: "localhost"
+#    port: 13861
+#    password: "supersecretpassword"
+#    secure: false
+#
+# you are able to add the current server but it is disabled by default because it may not be useful for everyone
+
+no-permission: "&cYou do not have enough permission to perform this command!"

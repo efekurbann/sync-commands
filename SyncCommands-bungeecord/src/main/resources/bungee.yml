@@ -1,0 +1,4 @@
+name: SyncCommands
+version: ${project.version}
+main: xyz.efekurbann.synccommands.SyncCommandsBungee
+description: Bungee-Side of SyncCommands
