@@ -1,5 +1,6 @@
 package xyz.efekurbann.synccommands;
 
+import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import xyz.efekurbann.synccommands.command.SyncCommand;
@@ -62,6 +63,8 @@ public final class SyncCommandsSpigot extends JavaPlugin {
         }
 
         this.getCommand("sync").setExecutor(new SyncCommand(this));
+
+        new Metrics(this, 14138);
     }
 
     @Override

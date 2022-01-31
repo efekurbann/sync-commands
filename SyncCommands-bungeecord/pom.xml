@@ -8,7 +8,7 @@
     <parent>
         <groupId>xyz.efekurbann</groupId>
         <artifactId>SyncCommands</artifactId>
-        <version>1.0</version>
+        <version>1.0.1</version>
     </parent>
 
     <artifactId>SyncCommands-bungeecord</artifactId>
@@ -53,6 +53,12 @@
             <groupId>xyz.efekurbann</groupId>
             <artifactId>SyncCommands-common</artifactId>
             <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-bungeecord</artifactId>
+            <version>2.2.1</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

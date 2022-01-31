@@ -2,6 +2,7 @@ package xyz.efekurbann.synccommands;
 
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
+import org.bstats.bungeecord.Metrics;
 import xyz.efekurbann.synccommands.command.BSyncCommand;
 import xyz.efekurbann.synccommands.config.Config;
 import xyz.efekurbann.synccommands.executor.ConsoleExecutor;
@@ -61,6 +62,8 @@ public final class SyncCommandsBungee extends Plugin {
         }
 
         this.getProxy().getPluginManager().registerCommand(this, new BSyncCommand(this));
+
+        new Metrics(this, 14139);
     }
 
     @Override

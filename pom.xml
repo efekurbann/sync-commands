@@ -6,7 +6,7 @@
 
     <groupId>xyz.efekurbann</groupId>
     <artifactId>SyncCommands</artifactId>
-    <version>1.0</version>
+    <version>1.0.1</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -47,6 +47,10 @@
                             <relocation>
                                 <pattern>redis.clients.jedis</pattern>
                                 <shadedPattern>xyz.efekurbann.synccommands.libs.jedis</shadedPattern>
+                            </relocation>
+                            <relocation>
+                                <pattern>org.bstats</pattern>
+                                <shadedPattern>xyz.efekurbann.synccommands.metrics</shadedPattern>
                             </relocation>
                         </relocations>
                     </configuration>
