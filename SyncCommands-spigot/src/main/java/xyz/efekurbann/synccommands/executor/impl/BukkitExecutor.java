@@ -14,6 +14,6 @@ public class BukkitExecutor implements ConsoleExecutor {
 
     @Override
     public void execute(String command) {
-        Bukkit.getScheduler().runTask(plugin, () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command));
+        plugin.getScheduler().runSync(() -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command));
     }
 }

@@ -16,7 +16,6 @@ import xyz.efekurbann.synccommands.scheduler.Scheduler;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 public final class SyncCommandsSpigot extends JavaPlugin {
 
@@ -89,5 +88,9 @@ public final class SyncCommandsSpigot extends JavaPlugin {
 
     public Messaging getMessaging() {
         return messaging;
+    }
+
+    public Scheduler getScheduler() {
+        return scheduler;
     }
 }

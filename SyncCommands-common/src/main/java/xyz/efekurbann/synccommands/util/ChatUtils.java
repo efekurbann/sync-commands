@@ -2,10 +2,8 @@ package xyz.efekurbann.synccommands.util;
 
 import net.md_5.bungee.api.ChatColor;
 
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class ChatUtils {
 
@@ -18,10 +16,6 @@ public class ChatUtils {
             matcher.appendReplacement(buffer, ChatColor.of(matcher.group()).toString());
         }
         return ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
-    }
-
-    public static List<String> color(List<String> list) {
-        return list.stream().map(ChatUtils::color).collect(Collectors.toList());
     }
 
 }

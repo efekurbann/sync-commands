@@ -37,10 +37,6 @@ public abstract class Messaging {
         return logger;
     }
 
-    public Scheduler getScheduler() {
-        return scheduler;
-    }
-
     public Server getServer() {
         return server;
     }

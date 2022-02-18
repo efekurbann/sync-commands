@@ -8,14 +8,13 @@ import xyz.efekurbann.synccommands.objects.Server;
 import xyz.efekurbann.synccommands.util.ChatUtils;
 
 import java.util.Arrays;
-import java.util.Locale;
 
 public class BSyncCommand extends net.md_5.bungee.api.plugin.Command {
 
     private final SyncCommandsBungee plugin;
 
     public BSyncCommand(SyncCommandsBungee plugin) {
-        super("bsync", null, "bungeesync", "bcommandsync", "commandsync", "synccommand");
+        super("bsync", null, "bungeesync", "syncbungee");
         this.plugin = plugin;
     }
 
@@ -36,13 +35,7 @@ public class BSyncCommand extends net.md_5.bungee.api.plugin.Command {
         String command = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
 
         if (args[0].equalsIgnoreCase("all")) {
-            Server[] servers = new Server[plugin.getServers().size()];
-
-            int i = 0;
-            for (Server value : plugin.getServers().values()) {
-                servers[i] = value;
-                i++;
-            }
+            Server[] servers = plugin.getServers().values().toArray(new Server[0]);
 
             plugin.getMessaging().publishCommand(new Command(command, plugin.getServer(), servers));
         } else if (plugin.getServers().get(args[0]) != null)

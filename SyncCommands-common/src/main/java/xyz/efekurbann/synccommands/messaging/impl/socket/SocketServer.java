@@ -14,9 +14,9 @@ public class SocketServer extends Thread {
 
     public SocketServer(SocketImpl socket, boolean secure) throws IOException {
         this.socket = socket;
-        this.password = socket.getPassword();
+        this.password = socket.getServer().getPassword();
         this.secure = secure;
-        this.serverSocket = new ServerSocket(socket.getPort());
+        this.serverSocket = new ServerSocket(socket.getServer().getPort());
 
         setName("SyncCommands Socket Thread");
     }

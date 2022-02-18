@@ -33,13 +33,7 @@ public class SyncCommand implements CommandExecutor {
         String cmd = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
 
         if (args[0].equalsIgnoreCase("all")) {
-            Server[] servers = new Server[plugin.getServers().size()];
-
-            int i = 0;
-            for (Server value : plugin.getServers().values()) {
-                servers[i] = value;
-                i++;
-            }
+            Server[] servers = plugin.getServers().values().toArray(new Server[0]);
 
             plugin.getMessaging().publishCommand(new Command(cmd, plugin.getThisServer(), servers));
         } else if (plugin.getServers().get(args[0]) != null)
