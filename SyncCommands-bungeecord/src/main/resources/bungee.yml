@@ -1,4 +1,4 @@
 name: SyncCommands
 version: ${project.version}
-main: xyz.efekurbann.synccommands.SyncCommandsBungee
+main: io.github.efekurbann.synccommands.SyncCommandsBungee
 description: Bungee-Side of SyncCommands

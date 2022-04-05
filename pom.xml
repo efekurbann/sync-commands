@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>xyz.efekurbann</groupId>
+    <groupId>io.github.efekurbann</groupId>
     <artifactId>SyncCommands</artifactId>
     <version>1.0.1</version>
     <packaging>pom</packaging>
@@ -46,11 +46,11 @@
                         <relocations>
                             <relocation>
                                 <pattern>redis.clients.jedis</pattern>
-                                <shadedPattern>xyz.efekurbann.synccommands.libs.jedis</shadedPattern>
+                                <shadedPattern>io.github.efekurbann.synccommands.libs.jedis</shadedPattern>
                             </relocation>
                             <relocation>
                                 <pattern>org.bstats</pattern>
-                                <shadedPattern>xyz.efekurbann.synccommands.metrics</shadedPattern>
+                                <shadedPattern>io.github.efekurbann.synccommands.metrics</shadedPattern>
                             </relocation>
                         </relocations>
                     </configuration>
@@ -63,5 +63,6 @@
         <module>synccommands-common</module>
         <module>synccommands-spigot</module>
         <module>synccommands-bungeecord</module>
+        <module>synccommands-sponge</module>
     </modules>
 </project>

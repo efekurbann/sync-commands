@@ -6,7 +6,7 @@
     <description>Bungee-Side of SyncCommands</description>
 
     <parent>
-        <groupId>xyz.efekurbann</groupId>
+        <groupId>io.github.efekurbann</groupId>
         <artifactId>SyncCommands</artifactId>
         <version>1.0.1</version>
     </parent>
@@ -50,7 +50,7 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>xyz.efekurbann</groupId>
+            <groupId>io.github.efekurbann</groupId>
             <artifactId>SyncCommands-common</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>

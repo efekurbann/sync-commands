@@ -1,10 +1,9 @@
 name: SyncCommands
 version: ${project.version}
-main: xyz.efekurbann.synccommands.SyncCommandsSpigot
+main: io.github.efekurbann.synccommands.SyncCommandsSpigot
 api-version: 1.13
 authors: [ hyperion ]
 description: Spigot-Side of SyncCommands.
-website: https://efekrbann.xyz
 commands:
   sync:
     aliases:
