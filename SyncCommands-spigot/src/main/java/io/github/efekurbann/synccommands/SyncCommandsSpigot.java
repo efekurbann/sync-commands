@@ -6,7 +6,13 @@ import io.github.efekurbann.synccommands.messaging.Messaging;
 import io.github.efekurbann.synccommands.messaging.impl.redis.Redis;
 import io.github.efekurbann.synccommands.messaging.impl.socket.SocketImpl;
 import io.github.efekurbann.synccommands.objects.Server;
+import io.github.efekurbann.synccommands.util.UpdateChecker;
 import org.bstats.bukkit.Metrics;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import io.github.efekurbann.synccommands.executor.ConsoleExecutor;
@@ -23,6 +29,7 @@ public final class SyncCommandsSpigot extends JavaPlugin {
     private final ConsoleExecutor consoleExecutor = new BukkitExecutor(this);
     private final Map<String, Server> servers = new HashMap<>();
     private final Scheduler scheduler = new BukkitScheduler(this);
+    private UpdateChecker updateChecker;
     private Messaging messaging;
     private Server server;
 
@@ -37,9 +44,10 @@ public final class SyncCommandsSpigot extends JavaPlugin {
                 this.getConfig().getString("connection.password"),
                 this.getConfig().getBoolean("connection.secure"));
 
-        if (this.getConfig().getString("connection.type").equalsIgnoreCase("socket"))
+        String type = this.getConfig().getString("connection.type", "socket");
+        if (type.equalsIgnoreCase("socket"))
             this.messaging = new SocketImpl(server, consoleExecutor, this.getLogger(), scheduler);
-        else if (this.getConfig().getString("connection.type").equalsIgnoreCase("redis"))
+        else if (type.equalsIgnoreCase("redis"))
             this.messaging = new Redis(server, consoleExecutor, this.getLogger(), scheduler);
 
         this.messaging.connect(
@@ -64,6 +72,23 @@ public final class SyncCommandsSpigot extends JavaPlugin {
         this.getCommand("sync").setExecutor(new SyncCommand(this));
 
         new Metrics(this, 14138);
+
+        (updateChecker = new UpdateChecker(this.getDescription().getVersion(), this.getLogger(), scheduler)).checkUpdates();
+
+        this.getServer().getPluginManager().registerEvents(new Listener() {
+            @EventHandler
+            public void onJoin(PlayerJoinEvent event) {
+                Player player = event.getPlayer();
+
+                if (!player.hasPermission("synccommands.admin")) return;
+
+                if (!updateChecker.isUpToDate()) {
+                    player.sendMessage(ChatColor.GOLD + "[SyncCommands]" + ChatColor.YELLOW + " An update was found!");
+                    player.sendMessage(ChatColor.GOLD + "[SyncCommands]" + ChatColor.YELLOW +
+                            " Download from: https://www.spigotmc.org/resources/99596");
+                }
+            }
+        }, this);
     }
 
     @Override
@@ -92,5 +117,9 @@ public final class SyncCommandsSpigot extends JavaPlugin {
 
     public Scheduler getScheduler() {
         return scheduler;
+    }
+
+    public UpdateChecker getUpdateChecker() {
+        return updateChecker;
     }
 }
