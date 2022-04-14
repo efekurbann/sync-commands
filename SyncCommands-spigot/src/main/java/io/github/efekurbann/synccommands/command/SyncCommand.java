@@ -20,7 +20,7 @@ public class SyncCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
-        if (!sender.hasPermission("bsync.op")) {
+        if (!sender.hasPermission("synccommands.admin")) {
             sender.sendMessage(ChatUtils.color(plugin.getConfig().getString("no-permission")));
             return true;
         }
