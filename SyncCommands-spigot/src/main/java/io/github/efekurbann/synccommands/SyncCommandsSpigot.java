@@ -119,7 +119,4 @@ public final class SyncCommandsSpigot extends JavaPlugin {
         return scheduler;
     }
 
-    public UpdateChecker getUpdateChecker() {
-        return updateChecker;
-    }
 }
