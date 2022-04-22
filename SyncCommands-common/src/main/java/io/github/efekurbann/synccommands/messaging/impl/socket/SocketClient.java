@@ -22,7 +22,6 @@ public class SocketClient {
                  DataOutputStream out = new DataOutputStream(socket.getOutputStream())) {
                 if (socket.isClosed()) return;
 
-                out.close();
                 out.writeUTF(server.getServerName());
                 out.writeUTF(command.getCommand());
                 out.writeUTF(command.getPublisher().getServerName());
