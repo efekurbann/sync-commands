@@ -25,8 +25,8 @@ public class SocketServer extends Thread {
     public void run() {
         while (!serverSocket.isClosed()) {
             if (serverSocket.isClosed()) break;
-            try (Socket socket = serverSocket.accept()) {
-                DataInputStream input = new DataInputStream(socket.getInputStream());
+            try (Socket socket = serverSocket.accept();
+                 DataInputStream input = new DataInputStream(socket.getInputStream())) {
 
                 String targetServer = input.readUTF();
                 if (!targetServer.equals("all") && !targetServer.equalsIgnoreCase(this.socket.getServer().getServerName())) return;
