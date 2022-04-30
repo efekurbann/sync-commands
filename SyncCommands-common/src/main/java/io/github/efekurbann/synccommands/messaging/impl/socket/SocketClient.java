@@ -1,7 +1,7 @@
 package io.github.efekurbann.synccommands.messaging.impl.socket;
 
 import io.github.efekurbann.synccommands.objects.Command;
-import io.github.efekurbann.synccommands.objects.Server;
+import io.github.efekurbann.synccommands.objects.server.Server;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -27,8 +27,7 @@ public class SocketClient {
                 out.writeUTF(command.getPublisher().getServerName());
                 out.writeUTF(server.getPassword());
 
-                this.socket.getLogger().info(String.format("Successfully sent command to server: %s:%d (%s)",
-                        server.getHost(), server.getPort(), server.getServerName()));
+                this.socket.printCommandSentMessage(command);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

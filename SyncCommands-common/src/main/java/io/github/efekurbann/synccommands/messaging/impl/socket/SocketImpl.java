@@ -3,7 +3,7 @@ package io.github.efekurbann.synccommands.messaging.impl.socket;
 import io.github.efekurbann.synccommands.messaging.Messaging;
 import io.github.efekurbann.synccommands.executor.ConsoleExecutor;
 import io.github.efekurbann.synccommands.objects.Command;
-import io.github.efekurbann.synccommands.objects.Server;
+import io.github.efekurbann.synccommands.objects.server.Server;
 import io.github.efekurbann.synccommands.scheduler.Scheduler;
 
 import java.io.IOException;

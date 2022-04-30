@@ -2,7 +2,7 @@ package io.github.efekurbann.synccommands.command;
 
 import io.github.efekurbann.synccommands.SyncCommandsBungee;
 import io.github.efekurbann.synccommands.objects.Command;
-import io.github.efekurbann.synccommands.objects.Server;
+import io.github.efekurbann.synccommands.objects.server.Server;
 import io.github.efekurbann.synccommands.util.ChatUtils;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;

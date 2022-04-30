@@ -47,8 +47,7 @@ public class SocketServer extends Thread {
                     }
                 }
 
-                this.socket.getLogger().info(String.format("Successfully executed command: %s from %s", command, publisher));
-                this.socket.getExecutor().execute(command);
+                this.socket.execute(command, publisher);
             } catch (IOException e) {
                 if (e.getMessage().equalsIgnoreCase("socket closed")) break;
 

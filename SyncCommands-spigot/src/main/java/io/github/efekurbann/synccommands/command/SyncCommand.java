@@ -1,6 +1,6 @@
 package io.github.efekurbann.synccommands.command;
 
-import io.github.efekurbann.synccommands.objects.Server;
+import io.github.efekurbann.synccommands.objects.server.Server;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;

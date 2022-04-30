@@ -1,27 +1,21 @@
 package io.github.efekurbann.synccommands.messaging.impl.redis;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import io.github.efekurbann.synccommands.messaging.Messaging;
 import redis.clients.jedis.*;
 import io.github.efekurbann.synccommands.executor.ConsoleExecutor;
-import io.github.efekurbann.synccommands.messaging.codec.GsonCodec;
 import io.github.efekurbann.synccommands.objects.Command;
-import io.github.efekurbann.synccommands.objects.Server;
+import io.github.efekurbann.synccommands.objects.server.Server;
 import io.github.efekurbann.synccommands.scheduler.Scheduler;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 public class Redis extends Messaging {
 
     private JedisPool jedisPool;
     private RedisPubSub listener;
-    private final GsonCodec<Command> codec = new GsonCodec<>(new Gson(), TypeToken.get(Command.class));
 
     public Redis(Server server, ConsoleExecutor executor, Logger logger, Scheduler scheduler) {
         super(server, executor, logger, scheduler);
@@ -58,8 +52,7 @@ public class Redis extends Messaging {
             try (Jedis jedis = this.jedisPool.getResource()) {
                 jedis.publish("synccommands".getBytes(StandardCharsets.UTF_8), codec.encode(command));
 
-                List<String> list = Arrays.stream(command.getTargetServers()).map(Server::getServerName).collect(Collectors.toList());
-                this.logger.info(String.format("Successfully sent command to server(s): %s", String.join(", ", list)));
+                printCommandSentMessage(command);
             }
         });
     }
@@ -84,8 +77,7 @@ public class Redis extends Messaging {
             if (!command.getTargetServers()[0].getServerName().equals("all") && Arrays.stream(command.getTargetServers())
                     .noneMatch(s -> s.getServerName().equalsIgnoreCase(Redis.this.server.getServerName()))) return;
 
-            logger.info("Successfully executed command: " + command.getCommand() + " from " + command.getPublisher().getServerName());
-            executor.execute(command.getCommand());
+            execute(command);
         }
 
         @Override

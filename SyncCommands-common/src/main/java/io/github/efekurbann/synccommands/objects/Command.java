@@ -1,5 +1,7 @@
 package io.github.efekurbann.synccommands.objects;
 
+import io.github.efekurbann.synccommands.objects.server.Server;
+
 public class Command {
 
     private final String command;
