@@ -3,9 +3,11 @@ package io.github.efekurbann.synccommands;
 import io.github.efekurbann.synccommands.config.Config;
 import io.github.efekurbann.synccommands.executor.impl.BungeeExecutor;
 import io.github.efekurbann.synccommands.messaging.Messaging;
+import io.github.efekurbann.synccommands.messaging.impl.rabbitmq.RabbitMQ;
 import io.github.efekurbann.synccommands.messaging.impl.redis.Redis;
 import io.github.efekurbann.synccommands.messaging.impl.socket.SocketImpl;
-import io.github.efekurbann.synccommands.objects.Server;
+import io.github.efekurbann.synccommands.objects.server.MQServer;
+import io.github.efekurbann.synccommands.objects.server.Server;
 import io.github.efekurbann.synccommands.scheduler.Scheduler;
 import io.github.efekurbann.synccommands.util.UpdateChecker;
 import net.md_5.bungee.api.ProxyServer;
@@ -33,18 +35,32 @@ public final class SyncCommandsBungee extends Plugin {
     public void onEnable() {
         this.config.create();
 
-        this.server = new Server(
-                this.getConfig().getString("serverName"),
-                this.getConfig().getString("connection.host"),
-                this.getConfig().getInt("connection.port"),
-                this.getConfig().getString("connection.password"),
-                this.getConfig().getBoolean("connection.secure"));
-
         String type = this.getConfig().getString("connection.type", "socket");
+
+        if (!type.equalsIgnoreCase("rabbitmq")) {
+            this.server = new Server(
+                    this.getConfig().getString("serverName"),
+                    this.getConfig().getString("connection.host"),
+                    this.getConfig().getInt("connection.port"),
+                    this.getConfig().getString("connection.password"),
+                    this.getConfig().getBoolean("connection.secure"));
+        } else {
+            this.server = new MQServer(
+                    this.getConfig().getString("serverName"),
+                    this.getConfig().getString("connection.host"),
+                    this.getConfig().getInt("connection.port"),
+                    this.getConfig().getString("connection.password"),
+                    this.getConfig().getBoolean("connection.secure"),
+                    this.getConfig().getString("connection.username"),
+                    this.getConfig().getString("connection.vhost"));
+        }
+
         if (type.equalsIgnoreCase("socket"))
             this.messaging = new SocketImpl(server, consoleExecutor, this.getLogger(), scheduler);
         else if (type.equalsIgnoreCase("redis"))
             this.messaging = new Redis(server, consoleExecutor, this.getLogger(), scheduler);
+        else if (type.equalsIgnoreCase("rabbitmq"))
+            this.messaging = new RabbitMQ(server, consoleExecutor, this.getLogger(), scheduler);
 
         this.messaging.connect(
                 server.getHost(),
@@ -53,15 +69,28 @@ public final class SyncCommandsBungee extends Plugin {
                 server.isSecure()
         );
 
-        this.messaging.addListeners();
+        if (!type.equalsIgnoreCase("rabbitmq")) // no need to call the method twice
+            this.messaging.addListeners();
 
         for (String key : getConfig().getSection("servers").getKeys()) {
-            Server s = new Server(
-                    key,
-                    getConfig().getString("servers." + key + ".host"),
-                    getConfig().getInt("servers." + key + ".port"),
-                    getConfig().getString("servers." + key + ".password"),
-                    getConfig().getBoolean("servers." + key + ".secure"));
+            Server s;
+            if (!type.equalsIgnoreCase("rabbitmq")) {
+                s = new Server(
+                        key,
+                        getConfig().getString("servers." + key + ".host"),
+                        getConfig().getInt("servers." + key + ".port"),
+                        getConfig().getString("servers." + key + ".password"),
+                        getConfig().getBoolean("servers." + key + ".secure"));
+            } else {
+                s = new MQServer(
+                        key,
+                        getConfig().getString("servers." + key + ".host"),
+                        getConfig().getInt("servers." + key + ".port"),
+                        getConfig().getString("servers." + key + ".password"),
+                        getConfig().getBoolean("servers." + key + ".secure"),
+                        getConfig().getString("servers." + key + ".username"),
+                        getConfig().getString("servers." + key + ".vhost"));
+            }
             this.servers.put(key, s);
         }
 

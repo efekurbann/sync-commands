@@ -1,4 +1,4 @@
-package io.github.efekurbann.synccommands.objects;
+package io.github.efekurbann.synccommands.objects.server;
 
 public class Server {
 
