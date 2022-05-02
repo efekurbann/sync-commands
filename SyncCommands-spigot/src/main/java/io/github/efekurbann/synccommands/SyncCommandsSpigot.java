@@ -1,5 +1,7 @@
 package io.github.efekurbann.synccommands;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import io.github.efekurbann.synccommands.command.SyncCommand;
 import io.github.efekurbann.synccommands.config.Config;
 import io.github.efekurbann.synccommands.enums.ConnectionType;
@@ -25,6 +27,7 @@ import io.github.efekurbann.synccommands.scheduler.BukkitScheduler;
 import io.github.efekurbann.synccommands.scheduler.Scheduler;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public final class SyncCommandsSpigot extends JavaPlugin {
 
@@ -32,7 +35,8 @@ public final class SyncCommandsSpigot extends JavaPlugin {
     private final ConsoleExecutor consoleExecutor = new BukkitExecutor(this);
     private final Map<String, Server> servers = new HashMap<>();
     private final Map<String, Set<Server>> groups = new HashMap<>();
-    private final Map<UUID, String> autoSyncMode = new HashMap<>();
+    // we will store the names instead of uuids
+    private final Cache<String, String> autoSyncMode = CacheBuilder.newBuilder().expireAfterWrite(5, TimeUnit.MINUTES).build();
     private final Scheduler scheduler = new BukkitScheduler(this);
     private UpdateChecker updateChecker;
     private Messaging messaging;
@@ -216,7 +220,7 @@ public final class SyncCommandsSpigot extends JavaPlugin {
         return groups;
     }
 
-    public Map<UUID, String> getAutoSyncMode() {
+    public Cache<String, String> getAutoSyncMode() {
         return autoSyncMode;
     }
 }

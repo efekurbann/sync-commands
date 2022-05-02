@@ -38,7 +38,7 @@ public class BSyncCommand extends net.md_5.bungee.api.plugin.Command {
                 return;
             }
 
-            if (!plugin.getAutoSyncMode().containsKey(player.getUniqueId())) {
+            if (!plugin.getAutoSyncMode().asMap().containsKey(player.getUniqueId())) {
                 plugin.getAutoSyncMode().put(player.getUniqueId(), target);
                 sender.sendMessage(TextComponent.fromLegacyText(
                         ChatUtils.color(String.format("&aSuccessfully enabled the auto sync mode for %s!", target)))
@@ -47,7 +47,7 @@ public class BSyncCommand extends net.md_5.bungee.api.plugin.Command {
                         ChatUtils.color("&aFrom now on, all the commands that you execute will be synced."))
                 );
             } else {
-                plugin.getAutoSyncMode().remove(player.getUniqueId());
+                plugin.getAutoSyncMode().invalidate(player.getUniqueId());
                 sender.sendMessage(TextComponent.fromLegacyText(ChatUtils.color("&cDisabled the auto sync mode!")));
             }
 

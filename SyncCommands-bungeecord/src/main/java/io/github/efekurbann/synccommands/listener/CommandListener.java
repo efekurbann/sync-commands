@@ -20,10 +20,10 @@ public class CommandListener implements Listener {
         String command = event.getMessage().replace("/", "");
 
         ProxiedPlayer sender = (ProxiedPlayer) event.getSender();
-        if (!plugin.getAutoSyncMode().containsKey(sender.getUniqueId())) return;
+        if (!plugin.getAutoSyncMode().asMap().containsKey(sender.getUniqueId())) return;
         if (command.startsWith("bsync") || command.startsWith("bungeesync") || command.startsWith("syncbungee")) return;
 
-        String target = plugin.getAutoSyncMode().get(sender.getUniqueId());
+        String target = plugin.getAutoSyncMode().getIfPresent(sender.getUniqueId());
 
         event.setMessage(String.format("/bsync %s %s", target, command));
     }

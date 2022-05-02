@@ -1,5 +1,7 @@
 package io.github.efekurbann.synccommands;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import io.github.efekurbann.synccommands.config.Config;
 import io.github.efekurbann.synccommands.enums.ConnectionType;
 import io.github.efekurbann.synccommands.executor.impl.BungeeExecutor;
@@ -30,7 +32,7 @@ public final class SyncCommandsBungee extends Plugin {
     private final Scheduler scheduler = new BungeeScheduler(this);
     private final Map<String, Server> servers = new HashMap<>();
     private final Map<String, Set<Server>> groups = new HashMap<>();
-    private final Map<UUID, String> autoSyncMode = new HashMap<>();
+    private final Cache<UUID, String> autoSyncMode = CacheBuilder.newBuilder().expireAfterWrite(5, TimeUnit.MINUTES).build();
     private Server server;
     private Messaging messaging;
     private boolean connectedSuccessfully;
@@ -196,7 +198,7 @@ public final class SyncCommandsBungee extends Plugin {
         return groups;
     }
 
-    public Map<UUID, String> getAutoSyncMode() {
+    public Cache<UUID, String> getAutoSyncMode() {
         return autoSyncMode;
     }
 }

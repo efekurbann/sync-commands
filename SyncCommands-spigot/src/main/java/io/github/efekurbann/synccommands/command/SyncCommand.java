@@ -3,7 +3,6 @@ package io.github.efekurbann.synccommands.command;
 import io.github.efekurbann.synccommands.objects.server.Server;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import io.github.efekurbann.synccommands.SyncCommandsSpigot;
 import io.github.efekurbann.synccommands.objects.Command;
@@ -26,8 +25,7 @@ public class SyncCommand implements CommandExecutor {
             return true;
         }
 
-        if (args.length == 1 && sender instanceof Player) {
-            Player player = (Player) sender;
+        if (args.length == 1) {
             String target = args[0];
             if (!plugin.getGroups().containsKey(target)
                     && !plugin.getServers().containsKey(target)
@@ -36,8 +34,8 @@ public class SyncCommand implements CommandExecutor {
                 return true;
             }
 
-            if (!plugin.getAutoSyncMode().containsKey(player.getUniqueId())) {
-                plugin.getAutoSyncMode().put(player.getUniqueId(), target);
+            if (!plugin.getAutoSyncMode().asMap().containsKey(sender.getName())) {
+                plugin.getAutoSyncMode().put(sender.getName(), target);
                 sender.sendMessage(
                         ChatUtils.color(String.format("&aSuccessfully enabled the auto sync mode for %s!", target))
                 );
@@ -53,7 +51,7 @@ public class SyncCommand implements CommandExecutor {
                                 "we can not detect that. And it wont be synced.")
                 );
             } else {
-                plugin.getAutoSyncMode().remove(player.getUniqueId());
+                plugin.getAutoSyncMode().invalidate(sender.getName());
                 sender.sendMessage(ChatUtils.color("&cDisabled the auto sync mode!"));
             }
 
