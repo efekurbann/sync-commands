@@ -32,4 +32,15 @@ servers: # connections to send commands, not listen
 #
 # you are able to add the current server but it is disabled by default because it may not be useful for everyone
 
+groups:
+  skyblock:
+    - server1 # it has to be the target server's name. case sensitive.
+    - server2
+  bedwars:
+    - server3
+    - server4
+  proxy: # You have more than one proxy? Don't worry!
+    - bungee1
+    - bungee2
+
 no-permission: "&cYou do not have enough permission to perform this command!"

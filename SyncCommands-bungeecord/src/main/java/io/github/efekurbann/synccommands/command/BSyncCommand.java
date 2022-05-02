@@ -40,7 +40,11 @@ public class BSyncCommand extends net.md_5.bungee.api.plugin.Command {
             plugin.getMessaging().publishCommand(new Command(command, plugin.getThisServer(), servers));
         } else if (plugin.getServers().get(args[0]) != null)
             plugin.getMessaging().publishCommand(new Command(command, plugin.getThisServer(), plugin.getServers().get(args[0])));
-        else {
+        else if (plugin.getGroups().get(args[0]) != null) {
+            Server[] servers = plugin.getGroups().get(args[0]).toArray(new Server[0]);
+
+            plugin.getMessaging().publishCommand(new Command(command, plugin.getThisServer(), servers));
+        } else {
             sender.sendMessage(TextComponent.fromLegacyText(ChatUtils.color(String.format("&cCould not find %s!", args[0]))));
             return;
         }

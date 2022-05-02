@@ -23,15 +23,14 @@ import io.github.efekurbann.synccommands.executor.impl.BukkitExecutor;
 import io.github.efekurbann.synccommands.scheduler.BukkitScheduler;
 import io.github.efekurbann.synccommands.scheduler.Scheduler;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 public final class SyncCommandsSpigot extends JavaPlugin {
 
     private final Config config = new Config(this, "config.yml");
     private final ConsoleExecutor consoleExecutor = new BukkitExecutor(this);
     private final Map<String, Server> servers = new HashMap<>();
+    private final Map<String, Set<Server>> groups = new HashMap<>();
     private final Scheduler scheduler = new BukkitScheduler(this);
     private UpdateChecker updateChecker;
     private Messaging messaging;
@@ -58,6 +57,9 @@ public final class SyncCommandsSpigot extends JavaPlugin {
 
         this.getLogger().info("Setting up servers...");
         setupServers(type);
+
+        this.getLogger().info("Setting up groups...");
+        setupGroups();
 
         this.getCommand("sync").setExecutor(new SyncCommand(this));
 
@@ -170,6 +172,20 @@ public final class SyncCommandsSpigot extends JavaPlugin {
         }
     }
 
+    private void setupGroups() {
+        if (getConfig().getConfigurationSection("groups") == null) return;
+
+        for (String key : getConfig().getConfigurationSection("groups").getKeys(false)) {
+            Set<Server> servers = new HashSet<>();
+
+            for (String server : getConfig().getStringList("groups." + key)) {
+                servers.add(this.servers.get(server));
+            }
+
+            this.groups.put(key, servers);
+        }
+    }
+
     @NotNull
     @Override
     public Config getConfig() {
@@ -193,4 +209,7 @@ public final class SyncCommandsSpigot extends JavaPlugin {
         return scheduler;
     }
 
+    public Map<String, Set<Server>> getGroups() {
+        return groups;
+    }
 }

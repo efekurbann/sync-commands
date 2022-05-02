@@ -38,7 +38,11 @@ public class SyncCommand implements CommandExecutor {
             plugin.getMessaging().publishCommand(new Command(cmd, plugin.getThisServer(), servers));
         } else if (plugin.getServers().get(args[0]) != null)
             plugin.getMessaging().publishCommand(new Command(cmd, plugin.getThisServer(), plugin.getServers().get(args[0])));
-        else {
+        else if (plugin.getGroups().get(args[0]) != null) {
+            Server[] servers = plugin.getGroups().get(args[0]).toArray(new Server[0]);
+
+            plugin.getMessaging().publishCommand(new Command(cmd, plugin.getThisServer(), servers));
+        } else {
             sender.sendMessage(ChatUtils.color(String.format("&cCould not find %s!", args[0])));
             return true;
         }

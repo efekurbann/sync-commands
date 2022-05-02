@@ -19,9 +19,7 @@ import io.github.efekurbann.synccommands.command.BSyncCommand;
 import io.github.efekurbann.synccommands.executor.ConsoleExecutor;
 import io.github.efekurbann.synccommands.scheduler.BungeeScheduler;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public final class SyncCommandsBungee extends Plugin {
@@ -30,6 +28,7 @@ public final class SyncCommandsBungee extends Plugin {
     private final ConsoleExecutor consoleExecutor = new BungeeExecutor();
     private final Scheduler scheduler = new BungeeScheduler(this);
     private final Map<String, Server> servers = new HashMap<>();
+    private final Map<String, Set<Server>> groups = new HashMap<>();
     private Server server;
     private Messaging messaging;
     private boolean connectedSuccessfully;
@@ -57,6 +56,9 @@ public final class SyncCommandsBungee extends Plugin {
 
         this.getLogger().info("Setting up servers...");
         setupServers(type);
+
+        this.getLogger().info("Setting up groups...");
+        setupGroups();
 
         this.getProxy().getPluginManager().registerCommand(this, new BSyncCommand(this));
 
@@ -157,6 +159,20 @@ public final class SyncCommandsBungee extends Plugin {
         }
     }
 
+    private void setupGroups() {
+        if (getConfig().getSection("groups") == null) return;
+
+        for (String key : getConfig().getSection("groups").getKeys()) {
+            Set<Server> servers = new HashSet<>();
+
+            for (String server : getConfig().getStringList("groups." + key)) {
+                servers.add(this.servers.get(server));
+            }
+
+            this.groups.put(key, servers);
+        }
+    }
+
     public Configuration getConfig() {
         return config.getConfig();
     }
@@ -171,5 +187,9 @@ public final class SyncCommandsBungee extends Plugin {
 
     public Map<String, Server> getServers() {
         return servers;
+    }
+
+    public Map<String, Set<Server>> getGroups() {
+        return groups;
     }
 }
