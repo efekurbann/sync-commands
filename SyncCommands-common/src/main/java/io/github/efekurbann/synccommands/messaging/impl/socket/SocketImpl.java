@@ -20,12 +20,8 @@ public class SocketImpl extends Messaging {
     }
 
     @Override
-    public void connect(String host, int port, String password, boolean secure) {
-        try {
-            this.socketServer = new SocketServer(this, secure);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void connect(String host, int port, String password, boolean secure) throws IOException {
+        this.socketServer = new SocketServer(this, secure);
     }
 
     @Override

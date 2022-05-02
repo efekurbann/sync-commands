@@ -38,6 +38,8 @@ public final class SyncCommandsBungee extends Plugin {
     public void onEnable() {
         this.config.create();
 
+        this.getLogger().info("Creating connection...");
+
         ConnectionType type;
         try {
             type = ConnectionType.valueOf(this.getConfig().getString("connection.type", "socket")
@@ -48,7 +50,10 @@ public final class SyncCommandsBungee extends Plugin {
             return;
         }
 
-        if (!this.connect(type)) return;
+        if (!this.connect(type)) {
+            onDisable();
+            return;
+        }
 
         this.getLogger().info("Setting up servers...");
         setupServers(type);
@@ -68,7 +73,8 @@ public final class SyncCommandsBungee extends Plugin {
 
     @Override
     public void onDisable() {
-        this.messaging.close();
+        if (connectedSuccessfully)
+            this.messaging.close();
     }
 
     private boolean connect(ConnectionType type) {
@@ -93,10 +99,13 @@ public final class SyncCommandsBungee extends Plugin {
         switch (type) {
             case SOCKET:
                 this.messaging = new SocketImpl(server, consoleExecutor, this.getLogger(), scheduler);
+                break;
             case REDIS:
                 this.messaging = new Redis(server, consoleExecutor, this.getLogger(), scheduler);
+                break;
             case RABBITMQ:
                 this.messaging = new RabbitMQ(server, consoleExecutor, this.getLogger(), scheduler);
+                break;
         }
 
         // this may not be the best solution but I just don't want people to see those ugly exceptions
@@ -118,7 +127,6 @@ public final class SyncCommandsBungee extends Plugin {
             this.getLogger().info("Something went wrong! We could not setup a connection!");
             this.getLogger().info("Please fix your configuration! Plugin disabling...");
             this.getLogger().info("Exception message: " + ex.getMessage());
-            this.onDisable();
             this.connectedSuccessfully = false;
         }
 

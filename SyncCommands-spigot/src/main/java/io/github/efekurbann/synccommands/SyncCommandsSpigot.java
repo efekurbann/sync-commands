@@ -111,10 +111,13 @@ public final class SyncCommandsSpigot extends JavaPlugin {
         switch (type) {
             case SOCKET:
                 this.messaging = new SocketImpl(server, consoleExecutor, this.getLogger(), scheduler);
+                break;
             case REDIS:
                 this.messaging = new Redis(server, consoleExecutor, this.getLogger(), scheduler);
+                break;
             case RABBITMQ:
                 this.messaging = new RabbitMQ(server, consoleExecutor, this.getLogger(), scheduler);
+                break;
         }
 
         // this may not be the best solution but I just don't want people to see those ugly exceptions

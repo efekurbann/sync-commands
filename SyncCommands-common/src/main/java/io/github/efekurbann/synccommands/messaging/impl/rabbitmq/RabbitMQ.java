@@ -33,7 +33,7 @@ public class RabbitMQ extends Messaging {
     }
 
     @Override
-    public void connect(String host, int port, String password, boolean secure) { // secure is not used in RabbitMQ
+    public void connect(String host, int port, String password, boolean secure) throws Exception { // secure is not used in RabbitMQ
 
         ConnectionFactory connectionFactory = new ConnectionFactory();
         connectionFactory.setHost(host);
@@ -46,17 +46,14 @@ public class RabbitMQ extends Messaging {
 
         addListeners(); // we are calling it in here because consuming requires a listener so it has to be initialized
 
-        try {
-            this.connection = connectionFactory.newConnection();
-            this.channel = this.connection.createChannel();
 
-            String queue = this.channel.queueDeclare("", false, true, true, null).getQueue();
-            this.channel.exchangeDeclare(EXCHANGE, BuiltinExchangeType.TOPIC, false, true, null);
-            this.channel.queueBind(queue, EXCHANGE, ROUTING_KEY);
-            this.channel.basicConsume(queue, true, this.listener, tag -> {});
-        } catch (IOException | TimeoutException e) {
-            e.printStackTrace();
-        }
+        this.connection = connectionFactory.newConnection();
+        this.channel = this.connection.createChannel();
+
+        String queue = this.channel.queueDeclare("", false, true, true, null).getQueue();
+        this.channel.exchangeDeclare(EXCHANGE, BuiltinExchangeType.TOPIC, false, true, null);
+        this.channel.queueBind(queue, EXCHANGE, ROUTING_KEY);
+        this.channel.basicConsume(queue, true, this.listener, tag -> {});
 
     }
 

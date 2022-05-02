@@ -8,8 +8,10 @@ import io.github.efekurbann.synccommands.objects.Command;
 import io.github.efekurbann.synccommands.objects.server.Server;
 import io.github.efekurbann.synccommands.scheduler.Scheduler;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -28,7 +30,7 @@ public abstract class Messaging {
         this.scheduler = scheduler;
     }
 
-    public abstract void connect(String host, int port, String password, boolean secure);
+    public abstract void connect(String host, int port, String password, boolean secure) throws Exception;
 
     public abstract void addListeners();
 
