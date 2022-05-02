@@ -3,6 +3,7 @@ package io.github.efekurbann.synccommands;
 import io.github.efekurbann.synccommands.command.SyncCommand;
 import io.github.efekurbann.synccommands.config.Config;
 import io.github.efekurbann.synccommands.enums.ConnectionType;
+import io.github.efekurbann.synccommands.listener.CommandListener;
 import io.github.efekurbann.synccommands.messaging.Messaging;
 import io.github.efekurbann.synccommands.messaging.impl.rabbitmq.RabbitMQ;
 import io.github.efekurbann.synccommands.messaging.impl.redis.Redis;
@@ -31,6 +32,7 @@ public final class SyncCommandsSpigot extends JavaPlugin {
     private final ConsoleExecutor consoleExecutor = new BukkitExecutor(this);
     private final Map<String, Server> servers = new HashMap<>();
     private final Map<String, Set<Server>> groups = new HashMap<>();
+    private final Map<UUID, String> autoSyncMode = new HashMap<>();
     private final Scheduler scheduler = new BukkitScheduler(this);
     private UpdateChecker updateChecker;
     private Messaging messaging;
@@ -62,6 +64,7 @@ public final class SyncCommandsSpigot extends JavaPlugin {
         setupGroups();
 
         this.getCommand("sync").setExecutor(new SyncCommand(this));
+        this.getServer().getPluginManager().registerEvents(new CommandListener(this), this);
 
         new Metrics(this, 14138);
 
@@ -211,5 +214,9 @@ public final class SyncCommandsSpigot extends JavaPlugin {
 
     public Map<String, Set<Server>> getGroups() {
         return groups;
+    }
+
+    public Map<UUID, String> getAutoSyncMode() {
+        return autoSyncMode;
     }
 }

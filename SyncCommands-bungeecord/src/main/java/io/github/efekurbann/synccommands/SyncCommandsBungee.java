@@ -3,6 +3,7 @@ package io.github.efekurbann.synccommands;
 import io.github.efekurbann.synccommands.config.Config;
 import io.github.efekurbann.synccommands.enums.ConnectionType;
 import io.github.efekurbann.synccommands.executor.impl.BungeeExecutor;
+import io.github.efekurbann.synccommands.listener.CommandListener;
 import io.github.efekurbann.synccommands.messaging.Messaging;
 import io.github.efekurbann.synccommands.messaging.impl.rabbitmq.RabbitMQ;
 import io.github.efekurbann.synccommands.messaging.impl.redis.Redis;
@@ -29,6 +30,7 @@ public final class SyncCommandsBungee extends Plugin {
     private final Scheduler scheduler = new BungeeScheduler(this);
     private final Map<String, Server> servers = new HashMap<>();
     private final Map<String, Set<Server>> groups = new HashMap<>();
+    private final Map<UUID, String> autoSyncMode = new HashMap<>();
     private Server server;
     private Messaging messaging;
     private boolean connectedSuccessfully;
@@ -61,6 +63,7 @@ public final class SyncCommandsBungee extends Plugin {
         setupGroups();
 
         this.getProxy().getPluginManager().registerCommand(this, new BSyncCommand(this));
+        this.getProxy().getPluginManager().registerListener(this, new CommandListener(this));
 
         new Metrics(this, 14139);
 
@@ -191,5 +194,9 @@ public final class SyncCommandsBungee extends Plugin {
 
     public Map<String, Set<Server>> getGroups() {
         return groups;
+    }
+
+    public Map<UUID, String> getAutoSyncMode() {
+        return autoSyncMode;
     }
 }
