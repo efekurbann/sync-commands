@@ -1,4 +1,4 @@
-Send commands between server instances. Supports 1.8 - 1.18.2.
+Send commands between server instances. Supports 1.8 - 1.19.
 
 Redis & Socket & RabbitMQ Support
 
