@@ -1,5 +1,5 @@
 name: SyncCommands
 version: ${project.version}
 main: io.github.efekurbann.synccommands.SyncCommandsBungee
-description: Bungee-Side of SyncCommands
+description: ${project.description}
 author: hyperion

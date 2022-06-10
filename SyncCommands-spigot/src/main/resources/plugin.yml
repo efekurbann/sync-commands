@@ -3,7 +3,7 @@ version: ${project.version}
 main: io.github.efekurbann.synccommands.SyncCommandsSpigot
 api-version: 1.13
 authors: [ hyperion ]
-description: Spigot-Side of SyncCommands.
+description: ${project.description}
 commands:
   sync:
     aliases:
