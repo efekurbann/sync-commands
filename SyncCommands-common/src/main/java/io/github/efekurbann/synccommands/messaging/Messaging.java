@@ -8,10 +8,8 @@ import io.github.efekurbann.synccommands.objects.Command;
 import io.github.efekurbann.synccommands.objects.server.Server;
 import io.github.efekurbann.synccommands.scheduler.Scheduler;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
