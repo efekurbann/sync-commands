@@ -5,6 +5,8 @@ import com.google.common.cache.CacheBuilder;
 import io.github.efekurbann.synccommands.command.SyncCommand;
 import io.github.efekurbann.synccommands.config.Config;
 import io.github.efekurbann.synccommands.enums.ConnectionType;
+import io.github.efekurbann.synccommands.executor.ConsoleExecutor;
+import io.github.efekurbann.synccommands.executor.impl.BukkitExecutor;
 import io.github.efekurbann.synccommands.listener.CommandListener;
 import io.github.efekurbann.synccommands.messaging.Messaging;
 import io.github.efekurbann.synccommands.messaging.impl.rabbitmq.RabbitMQ;
@@ -12,6 +14,8 @@ import io.github.efekurbann.synccommands.messaging.impl.redis.Redis;
 import io.github.efekurbann.synccommands.messaging.impl.socket.SocketImpl;
 import io.github.efekurbann.synccommands.objects.server.MQServer;
 import io.github.efekurbann.synccommands.objects.server.Server;
+import io.github.efekurbann.synccommands.scheduler.BukkitScheduler;
+import io.github.efekurbann.synccommands.scheduler.Scheduler;
 import io.github.efekurbann.synccommands.util.UpdateChecker;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.ChatColor;
@@ -21,10 +25,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
-import io.github.efekurbann.synccommands.executor.ConsoleExecutor;
-import io.github.efekurbann.synccommands.executor.impl.BukkitExecutor;
-import io.github.efekurbann.synccommands.scheduler.BukkitScheduler;
-import io.github.efekurbann.synccommands.scheduler.Scheduler;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -129,7 +129,7 @@ public final class SyncCommandsSpigot extends JavaPlugin {
                 break;
         }
 
-        // this may not be the best solution but I just don't want people to see those ugly exceptions
+        // this may not be the best solution, but I just don't want people to see those ugly exceptions
         try {
             this.messaging.connect(
                     server.getHost(),
@@ -156,6 +156,8 @@ public final class SyncCommandsSpigot extends JavaPlugin {
     }
 
     private void setupServers(ConnectionType type) {
+        if (this.getConfig().getConfigurationSection("servers") == null) return;
+
         for (String key : getConfig().getConfigurationSection("servers").getKeys(false)) {
             Server s;
             if (type != ConnectionType.RABBITMQ) {

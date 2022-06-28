@@ -2,8 +2,10 @@ package io.github.efekurbann.synccommands;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import io.github.efekurbann.synccommands.command.BSyncCommand;
 import io.github.efekurbann.synccommands.config.Config;
 import io.github.efekurbann.synccommands.enums.ConnectionType;
+import io.github.efekurbann.synccommands.executor.ConsoleExecutor;
 import io.github.efekurbann.synccommands.executor.impl.BungeeExecutor;
 import io.github.efekurbann.synccommands.listener.CommandListener;
 import io.github.efekurbann.synccommands.messaging.Messaging;
@@ -12,15 +14,13 @@ import io.github.efekurbann.synccommands.messaging.impl.redis.Redis;
 import io.github.efekurbann.synccommands.messaging.impl.socket.SocketImpl;
 import io.github.efekurbann.synccommands.objects.server.MQServer;
 import io.github.efekurbann.synccommands.objects.server.Server;
+import io.github.efekurbann.synccommands.scheduler.BungeeScheduler;
 import io.github.efekurbann.synccommands.scheduler.Scheduler;
 import io.github.efekurbann.synccommands.util.UpdateChecker;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 import org.bstats.bungeecord.Metrics;
-import io.github.efekurbann.synccommands.command.BSyncCommand;
-import io.github.efekurbann.synccommands.executor.ConsoleExecutor;
-import io.github.efekurbann.synccommands.scheduler.BungeeScheduler;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -141,6 +141,8 @@ public final class SyncCommandsBungee extends Plugin {
     }
 
     private void setupServers(ConnectionType type) {
+        if (getConfig().getSection("servers") == null) return;
+
         for (String key : getConfig().getSection("servers").getKeys()) {
             Server s;
             if (type != ConnectionType.RABBITMQ) {
