@@ -6,7 +6,11 @@ import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
 
 public class Config {
 
@@ -26,7 +30,7 @@ public class Config {
         File configFile = new File(plugin.getDataFolder(), name);
         if (!configFile.exists()) {
             try (InputStream is = plugin.getResourceAsStream(name);
-                 OutputStream os = new FileOutputStream(configFile)) {
+                 OutputStream os = Files.newOutputStream(configFile.toPath())) {
                 configFile.createNewFile();
                 ByteStreams.copy(is, os);
             } catch (IOException e) {
