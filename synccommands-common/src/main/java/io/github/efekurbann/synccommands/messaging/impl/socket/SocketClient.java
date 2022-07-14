@@ -27,11 +27,12 @@ public class SocketClient {
                 out.writeUTF(command.getPublisher().getServerName());
                 out.writeUTF(server.getPassword());
 
-                this.socket.printCommandSentMessage(command);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
         }
+
+        this.socket.printCommandSentMessage(command);
     }
 
 }
