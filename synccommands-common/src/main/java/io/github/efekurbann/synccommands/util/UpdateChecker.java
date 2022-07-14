@@ -1,5 +1,6 @@
 package io.github.efekurbann.synccommands.util;
 
+import io.github.efekurbann.synccommands.logging.Logger;
 import io.github.efekurbann.synccommands.scheduler.Scheduler;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -7,7 +8,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.logging.Logger;
 
 public class UpdateChecker {
 

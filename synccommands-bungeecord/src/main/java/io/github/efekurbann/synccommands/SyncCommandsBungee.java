@@ -8,14 +8,16 @@ import io.github.efekurbann.synccommands.enums.ConnectionType;
 import io.github.efekurbann.synccommands.executor.ConsoleExecutor;
 import io.github.efekurbann.synccommands.executor.impl.BungeeExecutor;
 import io.github.efekurbann.synccommands.listener.CommandListener;
+import io.github.efekurbann.synccommands.logging.Logger;
+import io.github.efekurbann.synccommands.logging.impl.BungeeLogger;
 import io.github.efekurbann.synccommands.messaging.Messaging;
 import io.github.efekurbann.synccommands.messaging.impl.rabbitmq.RabbitMQ;
 import io.github.efekurbann.synccommands.messaging.impl.redis.Redis;
 import io.github.efekurbann.synccommands.messaging.impl.socket.SocketImpl;
 import io.github.efekurbann.synccommands.objects.server.MQServer;
 import io.github.efekurbann.synccommands.objects.server.Server;
-import io.github.efekurbann.synccommands.scheduler.BungeeScheduler;
 import io.github.efekurbann.synccommands.scheduler.Scheduler;
+import io.github.efekurbann.synccommands.scheduler.impl.BungeeScheduler;
 import io.github.efekurbann.synccommands.util.UpdateChecker;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -30,6 +32,7 @@ public final class SyncCommandsBungee extends Plugin {
     private final Config config = new Config(this, "config.yml");
     private final ConsoleExecutor consoleExecutor = new BungeeExecutor();
     private final Scheduler scheduler = new BungeeScheduler(this);
+    private final Logger logger = new BungeeLogger(this);
     private final Map<String, Server> servers = new HashMap<>();
     private final Map<String, Set<Server>> groups = new HashMap<>();
     private final Cache<UUID, String> autoSyncMode = CacheBuilder.newBuilder().expireAfterWrite(5, TimeUnit.MINUTES).build();
@@ -72,7 +75,7 @@ public final class SyncCommandsBungee extends Plugin {
         // some forks sends ugly messages on initialization
         // so we will check updates after 3 seconds
         ProxyServer.getInstance().getScheduler().schedule(this,
-                ()-> new UpdateChecker(this.getDescription().getVersion(), this.getLogger(), scheduler).checkUpdates(),
+                ()-> new UpdateChecker(this.getDescription().getVersion(), logger, scheduler).checkUpdates(),
                 3, TimeUnit.SECONDS);
 
         this.getLogger().info("Everything seems good. Plugin enabled!");
@@ -105,13 +108,13 @@ public final class SyncCommandsBungee extends Plugin {
 
         switch (type) {
             case SOCKET:
-                this.messaging = new SocketImpl(server, consoleExecutor, this.getLogger(), scheduler);
+                this.messaging = new SocketImpl(server, consoleExecutor, logger, scheduler);
                 break;
             case REDIS:
-                this.messaging = new Redis(server, consoleExecutor, this.getLogger(), scheduler);
+                this.messaging = new Redis(server, consoleExecutor, logger, scheduler);
                 break;
             case RABBITMQ:
-                this.messaging = new RabbitMQ(server, consoleExecutor, this.getLogger(), scheduler);
+                this.messaging = new RabbitMQ(server, consoleExecutor, logger, scheduler);
                 break;
         }
 

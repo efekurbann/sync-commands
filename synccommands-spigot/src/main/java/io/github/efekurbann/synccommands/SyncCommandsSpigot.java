@@ -8,14 +8,16 @@ import io.github.efekurbann.synccommands.enums.ConnectionType;
 import io.github.efekurbann.synccommands.executor.ConsoleExecutor;
 import io.github.efekurbann.synccommands.executor.impl.BukkitExecutor;
 import io.github.efekurbann.synccommands.listener.CommandListener;
+import io.github.efekurbann.synccommands.logging.BukkitLogger;
+import io.github.efekurbann.synccommands.logging.Logger;
 import io.github.efekurbann.synccommands.messaging.Messaging;
 import io.github.efekurbann.synccommands.messaging.impl.rabbitmq.RabbitMQ;
 import io.github.efekurbann.synccommands.messaging.impl.redis.Redis;
 import io.github.efekurbann.synccommands.messaging.impl.socket.SocketImpl;
 import io.github.efekurbann.synccommands.objects.server.MQServer;
 import io.github.efekurbann.synccommands.objects.server.Server;
-import io.github.efekurbann.synccommands.scheduler.BukkitScheduler;
 import io.github.efekurbann.synccommands.scheduler.Scheduler;
+import io.github.efekurbann.synccommands.scheduler.impl.BukkitScheduler;
 import io.github.efekurbann.synccommands.util.UpdateChecker;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.ChatColor;
@@ -38,6 +40,7 @@ public final class SyncCommandsSpigot extends JavaPlugin {
     // we will store the names instead of uuids
     private final Cache<String, String> autoSyncMode = CacheBuilder.newBuilder().expireAfterWrite(5, TimeUnit.MINUTES).build();
     private final Scheduler scheduler = new BukkitScheduler(this);
+    private final Logger logger = new BukkitLogger(this);
     private UpdateChecker updateChecker;
     private Messaging messaging;
     private Server server;
@@ -72,7 +75,7 @@ public final class SyncCommandsSpigot extends JavaPlugin {
 
         new Metrics(this, 14138);
 
-        (updateChecker = new UpdateChecker(this.getDescription().getVersion(), this.getLogger(), scheduler)).checkUpdates();
+        (updateChecker = new UpdateChecker(this.getDescription().getVersion(), logger, scheduler)).checkUpdates();
 
         this.getServer().getPluginManager().registerEvents(new Listener() {
             @EventHandler
@@ -119,13 +122,13 @@ public final class SyncCommandsSpigot extends JavaPlugin {
 
         switch (type) {
             case SOCKET:
-                this.messaging = new SocketImpl(server, consoleExecutor, this.getLogger(), scheduler);
+                this.messaging = new SocketImpl(server, consoleExecutor, logger, scheduler);
                 break;
             case REDIS:
-                this.messaging = new Redis(server, consoleExecutor, this.getLogger(), scheduler);
+                this.messaging = new Redis(server, consoleExecutor, logger, scheduler);
                 break;
             case RABBITMQ:
-                this.messaging = new RabbitMQ(server, consoleExecutor, this.getLogger(), scheduler);
+                this.messaging = new RabbitMQ(server, consoleExecutor, logger, scheduler);
                 break;
         }
 

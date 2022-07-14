@@ -1,6 +1,7 @@
 package io.github.efekurbann.synccommands.messaging.impl.redis;
 
 import io.github.efekurbann.synccommands.executor.ConsoleExecutor;
+import io.github.efekurbann.synccommands.logging.Logger;
 import io.github.efekurbann.synccommands.messaging.Messaging;
 import io.github.efekurbann.synccommands.objects.Command;
 import io.github.efekurbann.synccommands.objects.server.Server;
@@ -13,7 +14,6 @@ import redis.clients.jedis.JedisPoolConfig;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Logger;
 
 public class Redis extends Messaging {
 

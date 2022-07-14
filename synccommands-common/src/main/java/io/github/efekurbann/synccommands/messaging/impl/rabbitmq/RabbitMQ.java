@@ -2,6 +2,7 @@ package io.github.efekurbann.synccommands.messaging.impl.rabbitmq;
 
 import com.rabbitmq.client.*;
 import io.github.efekurbann.synccommands.executor.ConsoleExecutor;
+import io.github.efekurbann.synccommands.logging.Logger;
 import io.github.efekurbann.synccommands.messaging.Messaging;
 import io.github.efekurbann.synccommands.objects.Command;
 import io.github.efekurbann.synccommands.objects.server.MQServer;
@@ -11,7 +12,6 @@ import io.github.efekurbann.synccommands.scheduler.Scheduler;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.concurrent.TimeoutException;
-import java.util.logging.Logger;
 
 public class RabbitMQ extends Messaging {
 
