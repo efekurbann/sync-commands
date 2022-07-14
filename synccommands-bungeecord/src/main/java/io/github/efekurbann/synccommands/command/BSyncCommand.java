@@ -22,7 +22,7 @@ public class BSyncCommand extends net.md_5.bungee.api.plugin.Command {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if (!sender.hasPermission("bsynccommands.admin")) {
+        if (!sender.hasPermission("synccommands.proxy.admin")) {
             sender.sendMessage(TextComponent.fromLegacyText(
                     ChatUtils.color(plugin.getConfig().getString("no-permission"))));
             return;
