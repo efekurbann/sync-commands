@@ -7,7 +7,7 @@
     <parent>
         <groupId>io.github.efekurbann</groupId>
         <artifactId>SyncCommands</artifactId>
-        <version>3.1</version>
+        <version>4.0.0</version>
     </parent>
 
     <artifactId>synccommands-bungeecord</artifactId>
@@ -50,7 +50,7 @@
         </dependency>
         <dependency>
             <groupId>io.github.efekurbann</groupId>
-            <artifactId>SyncCommands-common</artifactId>
+            <artifactId>synccommands-common</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

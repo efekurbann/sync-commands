@@ -6,7 +6,7 @@
 
     <groupId>io.github.efekurbann</groupId>
     <artifactId>SyncCommands</artifactId>
-    <version>3.1</version>
+    <version>4.0.0</version>
     <packaging>pom</packaging>
 
     <description>Best Command Synchronization Plugin in the market.</description>
@@ -69,5 +69,6 @@
         <module>synccommands-common</module>
         <module>synccommands-spigot</module>
         <module>synccommands-bungeecord</module>
+        <module>synccommands-velocity</module>
     </modules>
 </project>
