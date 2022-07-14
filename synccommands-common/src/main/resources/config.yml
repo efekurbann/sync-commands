@@ -5,9 +5,9 @@ connection: # connection to listen for new commands
   # you must use the same type as the other servers, otherwise it wont work.
   type: socket
   host: "localhost"
-  port: 13861
+  port: 1234
   password: "supersecretpassword"
-  secure: false # if you are going to use socket, I highly recommend you to keep this enabled and change the password.
+  secure: true # if you are going to use socket, I highly recommend you to keep this enabled and change the password.
 
   # these settings are only for RabbitMQ, if you are not going to use RabbitMQ just ignore this section.
   username: "guest"
@@ -16,21 +16,21 @@ connection: # connection to listen for new commands
 servers: # connections to send commands, not listen
   server1: # command would be /(b)sync server1 {command}
     host: "localhost"
-    port: 13861
+    port: 1235
     password: "supersecretpassword"
-    secure: false
+    secure: true
   server2: # command would be /(b)sync server2 {command}
     host: "localhost"
-    port: 13861
+    port: 1236
     password: "supersecretpassword"
-    secure: false
+    secure: true
 #  testServer: # command would be /(b)sync testServer {command}
 #    host: "localhost"
 #    port: 13861
 #    password: "supersecretpassword"
 #    secure: false
 #
-# you are able to add the current server but it is disabled by default because it may not be useful for everyone
+# you are able to add the current server, but it is disabled by default because it may not be useful for everyone
 
 groups:
   skyblock:
