@@ -1,9 +1,10 @@
-package io.github.efekurbann.synccommands.scheduler;
+package io.github.efekurbann.synccommands.scheduler.impl;
 
 import io.github.efekurbann.synccommands.SyncCommandsBungee;
+import io.github.efekurbann.synccommands.scheduler.Scheduler;
 import net.md_5.bungee.api.ProxyServer;
 
-public class BungeeScheduler implements Scheduler{
+public class BungeeScheduler implements Scheduler {
 
     private final SyncCommandsBungee plugin;
 

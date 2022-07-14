@@ -1,6 +1,7 @@
-package io.github.efekurbann.synccommands.scheduler;
+package io.github.efekurbann.synccommands.scheduler.impl;
 
 import io.github.efekurbann.synccommands.SyncCommandsSpigot;
+import io.github.efekurbann.synccommands.scheduler.Scheduler;
 import org.bukkit.Bukkit;
 
 public class BukkitScheduler implements Scheduler {
