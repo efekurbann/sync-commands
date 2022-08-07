@@ -5,6 +5,7 @@ import io.github.efekurbann.synccommands.objects.server.Server;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -20,7 +21,7 @@ public class SocketClient {
         for (Server server : command.getTargetServers()) {
             try (Socket socket = new Socket(InetAddress.getByName(server.getHost()), server.getPort());
                  DataOutputStream out = new DataOutputStream(socket.getOutputStream())) {
-                if (socket.isClosed()) return;
+                if (socket.isClosed()) continue;
 
                 out.writeUTF(server.getServerName());
                 out.writeUTF(command.getCommand());
@@ -28,6 +29,11 @@ public class SocketClient {
                 out.writeUTF(server.getPassword());
 
             } catch (IOException ex) {
+                if (ex instanceof ConnectException) {
+                    socket.getLogger().severe(String.format("Tried to send command to %s but could not reach. " +
+                            "Is it offline?", server.getServerName()));
+                    continue;
+                }
                 ex.printStackTrace();
             }
         }
