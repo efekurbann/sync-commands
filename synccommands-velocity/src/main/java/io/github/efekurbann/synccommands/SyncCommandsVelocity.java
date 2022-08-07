@@ -40,7 +40,7 @@ import java.util.concurrent.TimeUnit;
 @Plugin(
         id = "synccommands",
         name = "SyncCommands",
-        version = "4.0.0",
+        version = "4.0.1", // I really need to find a better way to do this... I forget to change this one all the time
         url = "https://efekurbann.github.io",
         description = "Best Command Synchronization Plugin in the market.",
         authors = {"hyperion"}

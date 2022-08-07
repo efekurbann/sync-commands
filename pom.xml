@@ -6,7 +6,7 @@
 
     <groupId>io.github.efekurbann</groupId>
     <artifactId>SyncCommands</artifactId>
-    <version>4.0.0</version>
+    <version>4.0.1</version>
     <packaging>pom</packaging>
 
     <description>Best Command Synchronization Plugin in the market.</description>
