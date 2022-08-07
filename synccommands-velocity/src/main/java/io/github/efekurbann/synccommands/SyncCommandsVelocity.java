@@ -196,6 +196,8 @@ public class SyncCommandsVelocity {
             }
             this.servers.put((String) node.getKey(), s);
         }
+
+        this.servers.put(this.server.getServerName(), this.server);
     }
 
     private void setupGroups() {

@@ -167,6 +167,8 @@ public final class SyncCommandsBungee extends Plugin {
             }
             this.servers.put(key, s);
         }
+
+        this.servers.put(this.server.getServerName(), this.server);
     }
 
     private void setupGroups() {
