@@ -49,7 +49,7 @@ public class SocketServer extends Thread {
 
                 this.socket.execute(command, publisher);
             } catch (IOException e) {
-                if (e.getMessage().equalsIgnoreCase("socket closed")) break;
+                if (e.getMessage() != null && e.getMessage().equalsIgnoreCase("socket closed")) break;
 
                 e.printStackTrace();
             }
